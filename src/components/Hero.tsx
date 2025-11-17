@@ -49,8 +49,8 @@ export const Hero = () => {
               size="lg"
               asChild
             >
-              <a href="#features">
-                Explore Features
+              <a href="#documentation">
+                Read Documentation
               </a>
             </Button>
           </div>
