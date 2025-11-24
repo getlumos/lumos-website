@@ -93,23 +93,23 @@ export const Documentation = () => {
 
               <div className="space-y-4">
                 <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">Using npm</h4>
-                  <CodeBlock code="npm install -g @rector-labs/lumos" />
+                  <h4 className="text-lg font-medium text-foreground mb-3">Using Cargo (Recommended)</h4>
+                  <CodeBlock code="cargo install lumos-cli" />
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">Using yarn</h4>
-                  <CodeBlock code="yarn global add @rector-labs/lumos" />
+                  <h4 className="text-lg font-medium text-foreground mb-3">Using npm (WASM binary)</h4>
+                  <CodeBlock code="npm install -g @getlumos/cli" />
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Note: npm package v0.1.0 provides WASM-based CLI. No Rust toolchain required.
+                  </p>
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">Using pnpm</h4>
-                  <CodeBlock code="pnpm add -g @rector-labs/lumos" />
-                </div>
-
-                <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">Using Cargo (Rust)</h4>
-                  <CodeBlock code="cargo install lumos" />
+                  <h4 className="text-lg font-medium text-foreground mb-3">From Source</h4>
+                  <CodeBlock code={`git clone https://github.com/getlumos/lumos.git
+cd lumos
+cargo build --release --bin lumos`} />
                 </div>
               </div>
 
@@ -134,54 +134,77 @@ export const Documentation = () => {
 
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">1. Initialize Lumos in your project</h4>
-                  <CodeBlock code="lumos init" />
-                  <p className="text-sm text-muted-foreground mt-2">
-                    This creates a <code className="px-1 py-0.5 rounded bg-muted text-foreground">lumos.config.json</code> file in your project root
-                  </p>
-                </div>
+                  <h4 className="text-lg font-medium text-foreground mb-3">1. Create a schema file</h4>
+                  <CodeBlock
+                    language=".lumos"
+                    code={`// schema.lumos
+#[solana]
+#[account]
+struct PlayerAccount {
+    wallet: PublicKey,
+    level: u16,
+    experience: u64,
+}
 
-                <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">2. Define your types (TypeScript example)</h4>
-                  <CodeBlock 
-                    language="typescript"
-                    code={`// src/types/account.ts
-export interface UserAccount {
-  pubkey: PublicKey;
-  authority: PublicKey;
-  balance: number;
-  created_at: number;
-  is_active: boolean;
+#[solana]
+enum GameState {
+    Active,
+    Paused,
+    Finished,
 }`}
                   />
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">3. Generate Rust types</h4>
-                  <CodeBlock code="lumos generate --from typescript --to rust" />
+                  <h4 className="text-lg font-medium text-foreground mb-3">2. Generate Rust + TypeScript</h4>
+                  <CodeBlock code="lumos generate schema.lumos" />
+                  <p className="text-sm text-muted-foreground mt-2">
+                    This creates <code className="px-1 py-0.5 rounded bg-muted text-foreground">generated.rs</code> and <code className="px-1 py-0.5 rounded bg-muted text-foreground">generated.ts</code> with perfect Borsh compatibility
+                  </p>
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">4. Check the output</h4>
-                  <CodeBlock 
+                  <h4 className="text-lg font-medium text-foreground mb-3">3. Use in your Anchor program</h4>
+                  <CodeBlock
                     language="rust"
-                    code={`// Generated in src/accounts/user_account.rs
-#[account]
-pub struct UserAccount {
-    pub pubkey: Pubkey,
-    pub authority: Pubkey,
-    pub balance: u64,
-    pub created_at: i64,
-    pub is_active: bool,
+                    code={`// programs/mygame/src/lib.rs
+use anchor_lang::prelude::*;
+mod generated;
+use generated::{PlayerAccount, GameState};
+
+#[program]
+pub mod mygame {
+    use super::*;
+    pub fn init_player(ctx: Context<InitPlayer>) -> Result<()> {
+        let player = &mut ctx.accounts.player;
+        player.wallet = ctx.accounts.signer.key();
+        player.level = 1;
+        player.experience = 0;
+        Ok(())
+    }
 }`}
+                  />
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-medium text-foreground mb-3">4. Use in your TypeScript client</h4>
+                  <CodeBlock
+                    language="typescript"
+                    code={`// client/src/index.ts
+import { PlayerAccount, PlayerAccountBorsh } from './generated';
+
+// Fetch and deserialize account
+const accountInfo = await connection.getAccountInfo(playerPubkey);
+const player = PlayerAccountBorsh.deserialize(accountInfo.data);
+console.log(\`Level: \${player.level}, XP: \${player.experience}\`);`}
                   />
                 </div>
               </div>
 
               <div className="p-4 rounded-lg bg-accent/10 border border-accent/30">
-                <h4 className="text-sm font-medium text-accent mb-2">✨ Pro Tip</h4>
+                <h4 className="text-sm font-medium text-accent mb-2">Pro Tip</h4>
                 <p className="text-sm text-foreground">
-                  Run <code className="px-1 py-0.5 rounded bg-muted">lumos watch</code> to automatically regenerate types whenever your source files change!
+                  Run <code className="px-1 py-0.5 rounded bg-muted">lumos validate schema.lumos</code> to check your schema for errors before generating code!
                 </p>
               </div>
             </TabsContent>
@@ -198,40 +221,32 @@ pub struct UserAccount {
               <div className="space-y-4">
                 {[
                   {
-                    cmd: "lumos init",
-                    desc: "Initialize Lumos in your project with default configuration",
+                    cmd: "lumos generate <schema.lumos>",
+                    desc: "Generate Rust and TypeScript code from .lumos schema file",
                   },
                   {
-                    cmd: "lumos generate",
-                    desc: "Generate types based on your configuration",
+                    cmd: "lumos validate <schema.lumos>",
+                    desc: "Validate schema syntax and type definitions without generating code",
                   },
                   {
-                    cmd: "lumos generate --from typescript --to rust",
-                    desc: "Generate Rust types from TypeScript source",
+                    cmd: "lumos init [project-name]",
+                    desc: "Create new LUMOS project with example schema and directory structure",
                   },
                   {
-                    cmd: "lumos generate --from rust --to typescript",
-                    desc: "Generate TypeScript types from Rust source",
+                    cmd: "lumos check <schema.lumos>",
+                    desc: "Perform static analysis and security checks on schema definitions",
                   },
                   {
-                    cmd: "lumos watch",
-                    desc: "Watch for changes and automatically regenerate types",
-                  },
-                  {
-                    cmd: "lumos validate",
-                    desc: "Validate that all types are in sync",
-                  },
-                  {
-                    cmd: "lumos clean",
-                    desc: "Remove all generated files",
+                    cmd: "lumos diff <old.lumos> <new.lumos>",
+                    desc: "Show differences between two schema versions for migration planning",
                   },
                   {
                     cmd: "lumos --help",
-                    desc: "Display help information",
+                    desc: "Display complete help information with all available commands",
                   },
                   {
                     cmd: "lumos --version",
-                    desc: "Display version information",
+                    desc: "Display current LUMOS CLI version (latest: v0.1.1)",
                   },
                 ].map((item, idx) => (
                   <div key={idx} className="p-4 rounded-lg bg-muted/30 border border-border hover:border-primary/30 transition-colors">
@@ -245,84 +260,73 @@ pub struct UserAccount {
             {/* Configuration */}
             <TabsContent value="config" className="space-y-6 mt-6">
               <div className="space-y-4">
-                <h3 className="text-2xl font-semibold text-foreground">Configuration Options</h3>
+                <h3 className="text-2xl font-semibold text-foreground">Project Organization</h3>
                 <p className="text-muted-foreground">
-                  Customize Lumos behavior with lumos.config.json
+                  Best practices for organizing LUMOS schemas in your project
                 </p>
               </div>
 
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">Basic Configuration</h4>
-                  <CodeBlock 
-                    language="json"
-                    code={`{
-  "source": {
-    "language": "typescript",
-    "paths": ["src/types/**/*.ts"]
-  },
-  "target": {
-    "language": "rust",
-    "outputDir": "programs/myapp/src/accounts"
-  },
-  "options": {
-    "watch": false,
-    "verbose": false
-  }
-}`}
+                  <h4 className="text-lg font-medium text-foreground mb-3">Recommended Project Structure</h4>
+                  <CodeBlock
+                    language="bash"
+                    code={`my-solana-app/
+├── schemas/
+│   ├── accounts.lumos      # Account definitions
+│   ├── instructions.lumos  # Instruction data structures
+│   └── events.lumos        # Event types
+├── programs/
+│   └── myapp/
+│       └── src/
+│           ├── lib.rs
+│           └── generated.rs  # Generated by LUMOS
+└── client/
+    └── src/
+        └── generated.ts      # Generated by LUMOS`}
                   />
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">Configuration Fields</h4>
+                  <h4 className="text-lg font-medium text-foreground mb-3">Output Customization</h4>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    Control output paths using CLI options:
+                  </p>
+                  <CodeBlock
+                    code={`# Default: generates to current directory
+lumos generate schemas/accounts.lumos
+
+# Custom Rust output
+lumos generate schemas/accounts.lumos --rust-out programs/myapp/src/
+
+# Custom TypeScript output
+lumos generate schemas/accounts.lumos --ts-out client/src/types/`}
+                  />
+                </div>
+
+                <div>
+                  <h4 className="text-lg font-medium text-foreground mb-3">Schema Attributes</h4>
                   <div className="space-y-3">
                     {[
                       {
-                        field: "source.language",
-                        type: "string",
-                        desc: 'Source language for type definitions: "typescript" or "rust"',
+                        attr: "#[solana]",
+                        desc: "Mark module for Solana-specific code generation (PublicKey support)",
                       },
                       {
-                        field: "source.paths",
-                        type: "string[]",
-                        desc: "Glob patterns for source files to process",
+                        attr: "#[account]",
+                        desc: "Generate Anchor account struct with proper derives",
                       },
                       {
-                        field: "target.language",
-                        type: "string",
-                        desc: 'Target language for generated types: "rust" or "typescript"',
+                        attr: "#[deprecated]",
+                        desc: "Mark fields as deprecated with optional migration message",
                       },
                       {
-                        field: "target.outputDir",
-                        type: "string",
-                        desc: "Directory where generated files will be written",
-                      },
-                      {
-                        field: "options.watch",
-                        type: "boolean",
-                        desc: "Enable watch mode for automatic regeneration",
-                      },
-                      {
-                        field: "options.verbose",
-                        type: "boolean",
-                        desc: "Enable verbose logging output",
-                      },
-                      {
-                        field: "options.formatting",
-                        type: "object",
-                        desc: "Code formatting options (prettier/rustfmt configs)",
-                      },
-                      {
-                        field: "options.exclude",
-                        type: "string[]",
-                        desc: "Patterns to exclude from processing",
+                        attr: "// comments",
+                        desc: "Add documentation that appears in generated code",
                       },
                     ].map((item, idx) => (
                       <div key={idx} className="p-3 rounded-lg bg-muted/30 border border-border">
-                        <div className="flex items-start justify-between gap-4 mb-1">
-                          <code className="text-sm font-mono text-primary">{item.field}</code>
-                          <span className="text-xs font-medium text-accent px-2 py-0.5 rounded bg-accent/10">{item.type}</span>
-                        </div>
+                        <code className="text-sm font-mono text-primary block mb-1">{item.attr}</code>
                         <p className="text-sm text-muted-foreground">{item.desc}</p>
                       </div>
                     ))}
@@ -342,112 +346,85 @@ pub struct UserAccount {
 
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">Custom Type Mappings</h4>
-                  <CodeBlock 
-                    language="json"
-                    code={`{
-  "typeMappings": {
-    "BigInt": "u128",
-    "Decimal": "f64",
-    "Address": "Pubkey"
-  }
+                  <h4 className="text-lg font-medium text-foreground mb-3">Enum Support</h4>
+                  <CodeBlock
+                    language=".lumos"
+                    code={`#[solana]
+enum GameState {
+    Active,               // Unit variant
+    Paused,
+    Finished { score: u64 },  // Struct variant
 }`}
                   />
                   <p className="text-sm text-muted-foreground mt-2">
-                    Define custom mappings between TypeScript and Rust types
+                    LUMOS supports unit, tuple, and struct enum variants with Borsh discriminants
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">Nested Struct Generation</h4>
-                  <CodeBlock 
-                    language="typescript"
-                    code={`// TypeScript
-interface Order {
-  id: string;
-  items: OrderItem[];
-  shipping: ShippingInfo;
-}
-
-interface OrderItem {
-  product_id: string;
-  quantity: number;
-  price: number;
-}
-
-interface ShippingInfo {
-  address: string;
-  method: "standard" | "express";
-}`}
-                  />
-                  <p className="text-sm text-muted-foreground mt-2 mb-3">
-                    Lumos automatically handles nested structures
-                  </p>
-                  <CodeBlock 
-                    language="rust"
-                    code={`// Generated Rust
+                  <h4 className="text-lg font-medium text-foreground mb-3">Nested Structs</h4>
+                  <CodeBlock
+                    language=".lumos"
+                    code={`#[solana]
 #[account]
-pub struct Order {
-    pub id: String,
-    pub items: Vec<OrderItem>,
-    pub shipping: ShippingInfo,
+struct Shop {
+    owner: PublicKey,
+    inventory: Vec<Item>,
+    settings: ShopSettings,
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
-pub struct OrderItem {
-    pub product_id: String,
-    pub quantity: u32,
-    pub price: u64,
+struct Item {
+    id: u32,
+    price: u64,
+    stock: u16,
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
-pub struct ShippingInfo {
-    pub address: String,
-    pub method: ShippingMethod,
-}
-
-#[derive(AnchorSerialize, AnchorDeserialize, Clone)]
-pub enum ShippingMethod {
-    Standard,
-    Express,
+struct ShopSettings {
+    is_open: bool,
+    discount_rate: u8,
 }`}
                   />
+                  <p className="text-sm text-muted-foreground mt-2">
+                    LUMOS automatically handles nested structures and complex types
+                  </p>
                 </div>
 
                 <div>
                   <h4 className="text-lg font-medium text-foreground mb-3">Build Integration</h4>
-                  <CodeBlock 
+                  <CodeBlock
                     language="json"
                     code={`// package.json
 {
   "scripts": {
-    "prebuild": "lumos generate",
+    "generate": "lumos generate schemas/*.lumos",
+    "prebuild": "npm run generate",
     "build": "anchor build",
-    "dev": "lumos watch & anchor test"
+    "test": "anchor test"
   }
 }`}
                   />
                   <p className="text-sm text-muted-foreground mt-2">
-                    Integrate Lumos into your build pipeline
+                    Integrate LUMOS into your build pipeline for automatic code generation
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-medium text-foreground mb-3">CI/CD Integration</h4>
-                  <CodeBlock 
+                  <h4 className="text-lg font-medium text-foreground mb-3">CI/CD with GitHub Actions</h4>
+                  <CodeBlock
                     language="yaml"
                     code={`# .github/workflows/build.yml
-- name: Generate types
-  run: npx lumos generate
+- uses: getlumos/lumos-action@v1
+  with:
+    schema: 'schemas/**/*.lumos'
 
-- name: Validate sync
-  run: npx lumos validate
+- name: Build Anchor program
+  run: anchor build
 
-- name: Build project
-  run: anchor build`}
+- name: Run tests
+  run: anchor test`}
                   />
                   <p className="text-sm text-muted-foreground mt-2">
-                    Ensure types stay in sync in your CI/CD pipeline
+                    Use the official LUMOS GitHub Action for automated schema validation and generation
                   </p>
                 </div>
               </div>
@@ -456,9 +433,9 @@ pub enum ShippingMethod {
                 <h4 className="text-sm font-medium text-primary mb-2">Need Help?</h4>
                 <p className="text-sm text-foreground">
                   Check out the{" "}
-                  <a 
-                    href="https://github.com/RECTOR-LABS/lumos" 
-                    target="_blank" 
+                  <a
+                    href="https://github.com/getlumos/lumos"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary underline hover:text-primary/80"
                   >

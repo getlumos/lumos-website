@@ -10,13 +10,13 @@ export const Footer = () => {
               Lumos
             </h3>
             <p className="text-sm text-muted-foreground">
-              Illuminate your Solana development
+              Type-safe schemas for Solana
             </p>
           </div>
 
           <div className="flex items-center gap-6">
             <a
-              href="https://github.com/RECTOR-LABS/lumos"
+              href="https://github.com/getlumos/lumos"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"
@@ -27,7 +27,7 @@ export const Footer = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>© 2025 RECTOR-LABS. Licensed under MIT and Apache-2.0.</p>
+          <p>© 2025 LUMOS Contributors. Licensed under MIT and Apache-2.0.</p>
         </div>
       </div>
     </footer>

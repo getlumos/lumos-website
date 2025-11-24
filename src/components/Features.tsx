@@ -1,37 +1,37 @@
 import { Card } from "@/components/ui/card";
-import { Zap, ArrowLeftRight, Shield, Blocks, Sparkles, Rocket } from "lucide-react";
+import { Zap, Target, Wrench, FileCode, Rocket, Palette } from "lucide-react";
 
 export const Features = () => {
   const features = [
     {
-      icon: ArrowLeftRight,
-      title: "Bidirectional Generation",
-      description: "Generate TypeScript types from Rust or Rust types from TypeScript - your choice, your workflow.",
-    },
-    {
       icon: Zap,
-      title: "Instant Sync",
-      description: "Changes in one language automatically propagate to the other, keeping your codebase perfectly synchronized.",
+      title: "Context-Aware Generation",
+      description: "Automatically detects Anchor vs pure Borsh contexts. Generates correct imports and derives for your program structure.",
     },
     {
-      icon: Shield,
-      title: "Type Safety Guaranteed",
-      description: "Compile-time verification ensures your types are always correct across both languages.",
+      icon: Target,
+      title: "Full Type Support",
+      description: "Primitives (u8-u128, i8-i128), Solana types (PublicKey, Signature), complex types (Vec, Option), and enums with discriminants.",
     },
     {
-      icon: Blocks,
-      title: "Solana-Optimized",
-      description: "Built specifically for Solana development patterns, supporting accounts, instructions, and program structures.",
+      icon: Wrench,
+      title: "Seamless Anchor Integration",
+      description: "Use #[account] attribute for Anchor programs. LUMOS handles all the integration automatically with proper derives.",
     },
     {
-      icon: Sparkles,
-      title: "Zero Configuration",
-      description: "Smart defaults and intuitive API mean you can start generating types in minutes, not hours.",
+      icon: FileCode,
+      title: "TypeScript + Borsh",
+      description: "Generated TypeScript interfaces include Borsh serialization schemas with guaranteed compatibility across Rust and TS.",
     },
     {
       icon: Rocket,
-      title: "Developer Velocity",
-      description: "Focus on building features instead of maintaining type definitions. Ship faster with confidence.",
+      title: "Production Ready",
+      description: "142/142 tests passing, v0.1.1 published to crates.io. Zero warnings, zero vulnerabilities. Battle-tested and reliable.",
+    },
+    {
+      icon: Palette,
+      title: "VSCode Extension",
+      description: "Syntax highlighting, IntelliSense, diagnostics, quick fixes, and format-on-save. Published to VS Marketplace (v0.5.0).",
     },
   ];
 
@@ -44,7 +44,7 @@ export const Features = () => {
             <span className="bg-gradient-primary bg-clip-text text-transparent"> Lumos</span>?
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            The most powerful type generation framework for Solana developers
+            Schema-first type generation for production Solana applications
           </p>
         </div>
 

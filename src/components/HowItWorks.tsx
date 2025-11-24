@@ -5,21 +5,21 @@ export const HowItWorks = () => {
   const steps = [
     {
       number: "01",
-      title: "Define Your Types",
-      description: "Write your data structures in either TypeScript or Rust using your preferred language.",
-      language: "TypeScript",
+      title: "Write .lumos Schema",
+      description: "Define your data structures once in .lumos syntax. Single source of truth for all your types.",
+      language: ".lumos",
     },
     {
       number: "02",
-      title: "Run Lumos",
-      description: "Execute the Lumos code generation tool with a simple command or integrated build step.",
+      title: "Run Generation",
+      description: "Execute lumos generate command. The CLI parses your schema and generates production code.",
       language: "CLI",
     },
     {
       number: "03",
-      title: "Get Perfect Types",
-      description: "Receive fully-typed, production-ready code in the target language with zero manual work.",
-      language: "Rust",
+      title: "Use Generated Code",
+      description: "Import generated Rust + TypeScript in your program and client. Perfect Borsh compatibility guaranteed.",
+      language: "Rust + TS",
     },
   ];
 
@@ -32,7 +32,7 @@ export const HowItWorks = () => {
             <span className="bg-gradient-primary bg-clip-text text-transparent"> Works</span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Three simple steps to synchronized type definitions
+            Schema-first workflow for type-safe Solana development
           </p>
         </div>
 

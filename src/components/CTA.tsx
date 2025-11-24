@@ -14,12 +14,12 @@ export const CTA = () => {
         <div className="text-center space-y-8 animate-fade-in-up">
           <div className="space-y-4">
             <h2 className="text-4xl sm:text-5xl font-bold">
-              Ready to
-              <span className="bg-gradient-primary bg-clip-text text-transparent"> Illuminate </span>
-              Your Solana Development?
+              Start Building
+              <span className="bg-gradient-primary bg-clip-text text-transparent"> Type-Safe </span>
+              Solana Apps
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Join the growing community of developers building better Solana applications with Lumos.
+              Join developers building production Solana applications with schema-first code generation.
             </p>
           </div>
 
@@ -35,7 +35,7 @@ export const CTA = () => {
             </div>
             <div className="px-4 py-2 rounded-lg bg-card border border-border flex items-center gap-2">
               <Github className="w-4 h-4 text-accent" />
-              <span className="text-sm text-foreground">RECTOR-LABS</span>
+              <span className="text-sm text-foreground">getlumos</span>
             </div>
           </div>
 
@@ -47,7 +47,7 @@ export const CTA = () => {
               className="group text-lg"
               asChild
             >
-              <a href="https://github.com/RECTOR-LABS/lumos" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/getlumos/lumos" target="_blank" rel="noopener noreferrer">
                 <Github className="w-5 h-5" />
                 Get Started on GitHub
                 <Star className="w-5 h-5 group-hover:rotate-12 transition-transform" />

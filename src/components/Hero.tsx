@@ -15,19 +15,19 @@ export const Hero = () => {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/50 backdrop-blur-sm border border-border">
             <Sparkles className="w-4 h-4 text-accent" />
-            <span className="text-sm text-muted-foreground">Open Source • TypeScript • Rust</span>
+            <span className="text-sm text-muted-foreground">Open Source • Schema-First • Type-Safe</span>
           </div>
 
           {/* Headline */}
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-            <span className="bg-gradient-primary bg-clip-text text-transparent">Illuminate</span> Your
+            <span className="bg-gradient-primary bg-clip-text text-transparent">Type-Safe</span> Schemas for Solana
             <br />
-            Solana Development
+            Write Once. Zero Bugs.
           </h1>
 
           {/* Subheadline */}
           <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            TypeScript ↔ Rust code generation framework eliminating duplicate type definitions in full-stack Solana applications
+            Define data structures in .lumos syntax. Generate production-ready Rust + TypeScript with guaranteed Borsh compatibility.
           </p>
 
           {/* CTA Buttons */}
@@ -38,7 +38,7 @@ export const Hero = () => {
               className="group"
               asChild
             >
-              <a href="https://github.com/RECTOR-LABS/lumos" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/getlumos/lumos" target="_blank" rel="noopener noreferrer">
                 <Github className="w-5 h-5" />
                 View on GitHub
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -58,16 +58,16 @@ export const Hero = () => {
           {/* Stats */}
           <div className="flex flex-wrap gap-8 justify-center pt-8 text-sm">
             <div className="space-y-1">
+              <div className="text-2xl font-bold text-foreground">142/142</div>
+              <div className="text-muted-foreground">Tests Passing</div>
+            </div>
+            <div className="space-y-1">
+              <div className="text-2xl font-bold text-foreground">v0.1.1</div>
+              <div className="text-muted-foreground">Latest Stable</div>
+            </div>
+            <div className="space-y-1">
               <div className="text-2xl font-bold text-foreground">100%</div>
               <div className="text-muted-foreground">Type Safety</div>
-            </div>
-            <div className="space-y-1">
-              <div className="text-2xl font-bold text-foreground">0x</div>
-              <div className="text-muted-foreground">Duplicate Definitions</div>
-            </div>
-            <div className="space-y-1">
-              <div className="text-2xl font-bold text-foreground">2-Way</div>
-              <div className="text-muted-foreground">Code Generation</div>
             </div>
           </div>
         </div>
