@@ -1,8 +1,13 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "lumos-website",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "Official marketing website for LUMOS - Type-safe schemas for Solana development",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/getlumos/lumos-website.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",

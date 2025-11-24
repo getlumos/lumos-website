@@ -1,73 +1,76 @@
-# Welcome to your Lovable project
+# LUMOS Website
 
-## Project info
+Official marketing website for LUMOS - Type-safe schemas for Solana development.
 
-**URL**: https://lovable.dev/projects/f7ad3b0d-dbc4-47da-adf6-90cc23a484e9
+## Project Info
 
-## How can I edit this code?
+- **Repository**: https://github.com/getlumos/lumos-website
+- **Live Site**: https://lumos-lang.org (coming soon)
+- **Stack**: Vite + React + TypeScript + Shadcn/ui + Tailwind CSS
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/f7ad3b0d-dbc4-47da-adf6-90cc23a484e9) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone https://github.com/getlumos/lumos-website.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to the project directory
+cd lumos-website
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-**Edit a file directly in GitHub**
+## Tech Stack
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- **Vite** - Fast build tool and dev server
+- **React 18** - UI library
+- **TypeScript** - Type safety
+- **Shadcn/ui** - Accessible component library
+- **Tailwind CSS** - Utility-first styling
+- **Lucide React** - Icon library
+- **React Router DOM** - Navigation
 
-**Use GitHub Codespaces**
+## Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+├── src/
+│   ├── components/        # React components
+│   │   ├── ui/           # Shadcn/ui components
+│   │   ├── Hero.tsx      # Hero section
+│   │   ├── Features.tsx  # Features section
+│   │   └── ...
+│   ├── pages/            # Page components
+│   │   └── Index.tsx     # Home page
+│   ├── App.tsx           # Root component
+│   ├── index.css         # Global styles
+│   └── main.tsx          # Entry point
+├── public/               # Static assets
+├── index.html            # HTML template
+└── package.json          # Dependencies
+```
 
-## What technologies are used for this project?
+## Deployment
 
-This project is built with:
+The site can be deployed to:
+- **Vercel** (recommended)
+- **Netlify**
+- **Cloudflare Pages**
+- Any static hosting provider
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Contributing
 
-## How can I deploy this project?
+See the main [LUMOS repository](https://github.com/getlumos/lumos) for contribution guidelines.
 
-Simply open [Lovable](https://lovable.dev/projects/f7ad3b0d-dbc4-47da-adf6-90cc23a484e9) and click on Share -> Publish.
+## License
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Dual-licensed under MIT and Apache 2.0 - see the main repository.
