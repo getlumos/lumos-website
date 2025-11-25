@@ -1,0 +1,9 @@
+services:
+  website:
+    image: ghcr.io/getlumos/lumos-website:latest
+    container_name: lumos-website
+    restart: unless-stopped
+    ports:
+      - "4001:80"
+    environment:
+      - NODE_ENV=production
