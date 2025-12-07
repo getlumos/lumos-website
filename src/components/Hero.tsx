@@ -79,13 +79,13 @@ export const Hero = () => {
           {/* Stats */}
           <div className="flex flex-wrap gap-8 justify-center pt-8 text-sm">
             <div className="space-y-1">
-              <div className="text-2xl font-bold text-foreground">142/142</div>
+              <div className="text-2xl font-bold text-foreground">202/202</div>
               <div className="text-muted-foreground">Tests Passing</div>
             </div>
-            <div className="space-y-1">
-              <div className="text-2xl font-bold text-foreground">v0.1.1</div>
+            <Link to="/changelog" className="space-y-1 hover:opacity-80 transition-opacity">
+              <div className="text-2xl font-bold text-foreground">v0.2.0</div>
               <div className="text-muted-foreground">Latest Stable</div>
-            </div>
+            </Link>
             <div className="space-y-1">
               <div className="text-2xl font-bold text-foreground">100%</div>
               <div className="text-muted-foreground">Type Safety</div>
