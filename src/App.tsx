@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Vision from "./pages/Vision";
 import NotFound from "./pages/NotFound";
+import { ExternalRedirect } from "./components/ExternalRedirect";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,8 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/vision" element={<Vision />} />
+          <Route path="/docs" element={<ExternalRedirect to="https://docs.lumos-lang.org" />} />
+          <Route path="/github" element={<ExternalRedirect to="https://github.com/getlumos" />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
