@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Vision from "./pages/Vision";
 import Examples from "./pages/Examples";
 import Changelog from "./pages/Changelog";
+import Community from "./pages/Community";
 import NotFound from "./pages/NotFound";
 import { ExternalRedirect } from "./components/ExternalRedirect";
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/vision" element={<Vision />} />
           <Route path="/examples" element={<Examples />} />
           <Route path="/changelog" element={<Changelog />} />
+          <Route path="/community" element={<Community />} />
           <Route path="/docs" element={<ExternalRedirect to="https://docs.lumos-lang.org" />} />
           <Route path="/github" element={<ExternalRedirect to="https://github.com/getlumos" />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
