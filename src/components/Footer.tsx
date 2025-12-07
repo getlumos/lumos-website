@@ -59,7 +59,7 @@ export const Footer = () => {
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <img src="/logo.svg" alt="LUMOS" className="w-8 h-8" />
+              <img src="/logo.png" alt="LUMOS" className="w-8 h-8" />
               <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 LUMOS
               </span>
