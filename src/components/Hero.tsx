@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Github, ArrowRight, Sparkles } from "lucide-react";
+import { Github, ArrowRight, Sparkles, Eye } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Hero = () => {
   return (
@@ -52,6 +53,16 @@ export const Hero = () => {
               <a href="#documentation">
                 Read Documentation
               </a>
+            </Button>
+            <Button
+              variant="ghost"
+              size="lg"
+              asChild
+            >
+              <Link to="/vision">
+                <Eye className="w-5 h-5" />
+                Our Vision
+              </Link>
             </Button>
           </div>
 
