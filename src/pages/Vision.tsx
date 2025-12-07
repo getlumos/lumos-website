@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, ArrowLeft, Layers, Zap, Shield, Rocket, Code, Package, CheckCircle, XCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowRight, Layers, Zap, Shield, Rocket, Code, Package, CheckCircle, XCircle } from "lucide-react";
+import { Layout } from "@/components/Layout";
 
 export const Vision = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <Layout>
       {/* Hero Section */}
       <section className="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-hero">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -14,12 +14,6 @@ export const Vision = () => {
         </div>
 
         <div className="container mx-auto max-w-5xl relative z-10">
-          {/* Back link */}
-          <Link to="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 transition-colors">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
-
           <div className="text-center space-y-6 animate-fade-in-up">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
               The <span className="bg-gradient-primary bg-clip-text text-transparent">Workflow Language</span>
@@ -379,19 +373,7 @@ main() // Type-safe, one language`}
         </div>
       </section>
 
-      {/* Simple Footer */}
-      <footer className="py-8 px-4 border-t border-border">
-        <div className="container mx-auto max-w-5xl flex flex-col sm:flex-row justify-between items-center gap-4">
-          <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors">
-            <ArrowLeft className="w-4 h-4 inline mr-2" />
-            Back to Home
-          </Link>
-          <div className="text-sm text-muted-foreground">
-            LUMOS - Type-safe schemas for Solana
-          </div>
-        </div>
-      </footer>
-    </div>
+    </Layout>
   );
 };
 

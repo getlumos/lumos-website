@@ -5,11 +5,11 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { Documentation } from "@/components/Documentation";
 import { CodeExample } from "@/components/CodeExample";
 import { CTA } from "@/components/CTA";
-import { Footer } from "@/components/Footer";
+import { Layout } from "@/components/Layout";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <Layout withNavbarSpace={false}>
       <Hero />
       <Problem />
       <Features />
@@ -17,8 +17,7 @@ const Index = () => {
       <Documentation />
       <CodeExample />
       <CTA />
-      <Footer />
-    </div>
+    </Layout>
   );
 };
 
