@@ -30,9 +30,7 @@ export const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <span className="text-lg font-bold text-white">L</span>
-            </div>
+            <img src="/logo.svg" alt="LUMOS" className="w-8 h-8" />
             <span className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
               LUMOS
             </span>
