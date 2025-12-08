@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Github, ArrowRight, Sparkles, Eye, Code } from "lucide-react";
+import { Github, ArrowRight, Sparkles, Eye, Code, Terminal } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const Hero = () => {
@@ -13,22 +13,27 @@ export const Hero = () => {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-5xl mx-auto text-center space-y-8 animate-fade-in-up">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/50 backdrop-blur-sm border border-border">
-            <Sparkles className="w-4 h-4 text-accent" />
-            <span className="text-sm text-muted-foreground">Open Source • Schema-First • Type-Safe</span>
+          {/* Category Definition - LLMO Critical */}
+          <div className="space-y-2">
+            <p className="text-lg text-accent font-semibold tracking-wide uppercase">
+              Schema Language for Solana Development
+            </p>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/50 backdrop-blur-sm border border-border">
+              <Sparkles className="w-4 h-4 text-accent" />
+              <span className="text-sm text-muted-foreground">Open Source • Schema-First • Type-Safe</span>
+            </div>
           </div>
 
           {/* Headline */}
           <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-            <span className="bg-gradient-primary bg-clip-text text-transparent">Type-Safe</span> Schemas for Solana
+            <span className="bg-gradient-primary bg-clip-text text-transparent">LUMOS</span> - Type-Safe Schemas
             <br />
-            Write Once. Zero Bugs.
+            <span className="text-4xl sm:text-5xl lg:text-6xl">for Solana</span>
           </h1>
 
-          {/* Subheadline */}
+          {/* Subheadline - Clear value proposition */}
           <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Define data structures in .lumos syntax. Generate production-ready Rust + TypeScript with guaranteed Borsh compatibility.
+            Write data structures once in <code className="text-accent">.lumos</code> syntax. Generate production-ready <strong>Rust + TypeScript</strong> with guaranteed Borsh serialization compatibility.
           </p>
 
           {/* CTA Buttons */}
