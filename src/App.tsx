@@ -11,6 +11,7 @@ import Community from "./pages/Community";
 import Roadmap from "./pages/Roadmap";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import Playground from "./pages/Playground";
 import NotFound from "./pages/NotFound";
 import { ExternalRedirect } from "./components/ExternalRedirect";
 
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/playground" element={<Playground />} />
           <Route path="/docs" element={<ExternalRedirect to="https://docs.lumos-lang.org" />} />
           <Route path="/github" element={<ExternalRedirect to="https://github.com/getlumos" />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
