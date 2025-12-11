@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LUMOS Blog</title>
+    <link>https://lumos-lang.org/blog</link>
+    <description>News, tutorials, and insights about LUMOS and Solana development</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 11 Dec 2025 08:07:27 GMT</lastBuildDate>
+    <atom:link href="https://lumos-lang.org/rss.xml" rel="self" type="application/rss+xml" />
+
+    <item>
+      <title>LUMOS v0.1.1 Released: Security Improvements &amp; Bug Fixes</title>
+      <link>https://lumos-lang.org/blog/release-v0-1-1</link>
+      <guid>https://lumos-lang.org/blog/release-v0-1-1</guid>
+      <pubDate>Thu, 30 Jan 2025 00:00:00 GMT</pubDate>
+      <description>New release brings enhanced security validation, improved error messages, and TypeScript precision warnings.</description>
+      <category>release</category>
+      <author>team</author>
+    </item>
+    <item>
+      <title>Migration Guide: From Anchor IDL to LUMOS</title>
+      <link>https://lumos-lang.org/blog/migration-guide-anchor-to-lumos</link>
+      <guid>https://lumos-lang.org/blog/migration-guide-anchor-to-lumos</guid>
+      <pubDate>Sat, 25 Jan 2025 00:00:00 GMT</pubDate>
+      <description>Step-by-step guide to migrating your existing Anchor project to use LUMOS schemas for better type safety.</description>
+      <category>guide</category>
+      <author>rector</author>
+    </item>
+    <item>
+      <title>Getting Started with LUMOS in 5 Minutes</title>
+      <link>https://lumos-lang.org/blog/getting-started-5-minutes</link>
+      <guid>https://lumos-lang.org/blog/getting-started-5-minutes</guid>
+      <pubDate>Mon, 20 Jan 2025 00:00:00 GMT</pubDate>
+      <description>Quick tutorial to get you building type-safe Solana programs with LUMOS in under 5 minutes.</description>
+      <category>tutorial</category>
+      <author>rector</author>
+    </item>
+    <item>
+      <title>Introducing LUMOS: Type-Safe Schemas for Solana</title>
+      <link>https://lumos-lang.org/blog/introducing-lumos</link>
+      <guid>https://lumos-lang.org/blog/introducing-lumos</guid>
+      <pubDate>Wed, 15 Jan 2025 00:00:00 GMT</pubDate>
+      <description>Write once in .lumos syntax, generate production-ready Rust and TypeScript with guaranteed Borsh serialization compatibility.</description>
+      <category>announcement</category>
+      <author>team</author>
+    </item>
+  </channel>
+</rss>

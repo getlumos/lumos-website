@@ -1,0 +1,73 @@
+---
+title: "Introducing LUMOS: Type-Safe Schemas for Solana"
+date: "2025-01-15"
+author: "team"
+excerpt: "Write once in .lumos syntax, generate production-ready Rust and TypeScript with guaranteed Borsh serialization compatibility."
+category: "announcement"
+tags: ["solana", "rust", "typescript", "announcement"]
+image: "/placeholder.svg"
+---
+
+# Introducing LUMOS
+
+We're excited to introduce **LUMOS** - a type-safe schema language designed specifically for Solana development.
+
+## The Problem
+
+Building Solana programs requires maintaining separate type definitions in Rust (on-chain) and TypeScript (client-side). This duplication leads to:
+
+- **Type mismatches** between on-chain and off-chain code
+- **Serialization bugs** from manual Borsh implementation
+- **Maintenance overhead** keeping both codebases in sync
+- **Developer friction** switching between languages
+
+## The Solution
+
+LUMOS provides a single source of truth for your data structures:
+
+```rust
+#[solana]
+#[account]
+struct PlayerAccount {
+    wallet: PublicKey,
+    level: u16,
+    experience: u64,
+}
+```
+
+This generates:
+- **Rust**: Anchor-compatible structs with automatic derives
+- **TypeScript**: Type-safe interfaces with Borsh schemas
+- **Guaranteed compatibility**: No more serialization mismatches
+
+## Key Features
+
+- 🎯 **Type Safety**: Catch errors at compile time, not runtime
+- 🔄 **Bidirectional Generation**: Rust ↔ TypeScript
+- 📦 **Borsh Compatible**: Guaranteed serialization compatibility
+- ⚡ **Anchor Integration**: Works seamlessly with Anchor framework
+- 🛠️ **Developer Experience**: CLI, LSP, and editor support
+
+## Getting Started
+
+Install LUMOS CLI:
+
+```bash
+cargo install lumos-cli
+```
+
+Create your first schema:
+
+```bash
+lumos init my-project
+lumos generate schema.lumos
+```
+
+## What's Next?
+
+- VSCode extension with full IntelliSense
+- More Solana-specific types
+- Advanced validation rules
+- IDE plugins for IntelliJ, Neovim, and more
+
+Join us on [GitHub](https://github.com/getlumos) and start building type-safe Solana programs today!

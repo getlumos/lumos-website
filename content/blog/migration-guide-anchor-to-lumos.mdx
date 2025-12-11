@@ -1,0 +1,252 @@
+---
+title: "Migration Guide: From Anchor IDL to LUMOS"
+date: "2025-01-25"
+author: "rector"
+excerpt: "Step-by-step guide to migrating your existing Anchor project to use LUMOS schemas for better type safety."
+category: "guide"
+tags: ["migration", "anchor", "guide"]
+image: "/placeholder.svg"
+---
+
+# Migration Guide: From Anchor IDL to LUMOS
+
+Already have an Anchor project? This guide shows you how to adopt LUMOS incrementally without breaking existing code.
+
+## Why Migrate?
+
+LUMOS provides several advantages over Anchor's built-in IDL:
+
+- **Single source of truth** for types
+- **TypeScript generation** with Borsh schemas
+- **Better IDE support** with LSP
+- **Type validation** at compile time
+- **No runtime overhead**
+
+## Migration Strategy
+
+You can migrate incrementally - no need to rewrite everything at once.
+
+### Strategy 1: New Types Only (Recommended)
+
+Start using LUMOS for new types while keeping existing Anchor code:
+
+```rust
+// schema.lumos
+#[solana]
+#[account]
+struct NewFeature {
+    user: PublicKey,
+    config: u64,
+}
+```
+
+Generate and import alongside existing code:
+
+```rust
+// lib.rs
+use anchor_lang::prelude::*;
+
+mod generated; // LUMOS generated
+use generated::NewFeature;
+
+// Existing Anchor accounts work normally
+#[account]
+pub struct OldAccount {
+    pub data: u64,
+}
+```
+
+### Strategy 2: Gradual Replacement
+
+Move existing types to LUMOS one at a time:
+
+#### Before (Anchor)
+
+```rust
+#[account]
+pub struct GamePlayer {
+    pub wallet: Pubkey,
+    pub score: u64,
+    pub level: u16,
+}
+```
+
+#### After (LUMOS)
+
+```rust
+// schema.lumos
+#[solana]
+#[account]
+struct GamePlayer {
+    wallet: PublicKey,
+    score: u64,
+    level: u16,
+}
+```
+
+Generate and replace imports:
+
+```rust
+mod generated;
+use generated::GamePlayer; // instead of defining inline
+```
+
+## Step-by-Step Migration
+
+### 1. Install LUMOS CLI
+
+```bash
+cargo install lumos-cli
+```
+
+### 2. Initialize Schema File
+
+In your Anchor project root:
+
+```bash
+lumos init
+```
+
+### 3. Convert Account Structs
+
+For each Anchor account, create equivalent LUMOS schema:
+
+**Anchor:**
+```rust
+#[account]
+pub struct TokenVault {
+    pub authority: Pubkey,
+    pub token_account: Pubkey,
+    pub amount: u64,
+}
+```
+
+**LUMOS:**
+```rust
+#[solana]
+#[account]
+struct TokenVault {
+    authority: PublicKey,
+    token_account: PublicKey,
+    amount: u64,
+}
+```
+
+### 4. Handle Complex Types
+
+LUMOS supports all Anchor types:
+
+| Anchor Type | LUMOS Type |
+|-------------|------------|
+| `Pubkey` | `PublicKey` |
+| `Vec<T>` | `[T]` |
+| `Option<T>` | `Option<T>` |
+| `[u8; 32]` | `[u8; 32]` |
+
+### 5. Generate Code
+
+```bash
+lumos generate schema.lumos --output programs/my-program/src/
+```
+
+### 6. Update Imports
+
+Replace struct definitions with imports:
+
+```rust
+// Remove inline definitions
+// #[account]
+// pub struct MyAccount { ... }
+
+// Add import
+mod generated;
+use generated::MyAccount;
+```
+
+### 7. Update Client Code
+
+Use generated TypeScript:
+
+```typescript
+// Before (manual Borsh)
+const accountDataLayout = borsh.struct([
+  borsh.publicKey("authority"),
+  borsh.u64("amount"),
+]);
+
+// After (LUMOS generated)
+import { TokenVault } from "./generated";
+const vault = TokenVault.decode(accountData);
+```
+
+## Common Pitfalls
+
+### Pitfall 1: Pubkey vs PublicKey
+
+```rust
+// ❌ Anchor uses Pubkey
+pub wallet: Pubkey
+
+// ✅ LUMOS uses PublicKey
+wallet: PublicKey
+```
+
+### Pitfall 2: Manual Derives
+
+```rust
+// ❌ Don't add manual derives to #[account] structs
+#[account]
+#[derive(BorshSerialize, BorshDeserialize)]
+struct Account { ... }
+
+// ✅ Let LUMOS handle it
+#[solana]
+#[account]
+struct Account { ... }
+```
+
+### Pitfall 3: Field Visibility
+
+LUMOS-generated structs use Anchor's conventions automatically:
+
+```rust
+// LUMOS generates this:
+pub struct Account {
+    pub field: Type, // Already public
+}
+```
+
+## Testing Migration
+
+After migration, verify:
+
+1. **Compilation**: `anchor build` succeeds
+2. **Tests pass**: `anchor test`
+3. **Client compatibility**: Old clients can read new accounts
+4. **Type safety**: TypeScript catches errors
+
+## Rollback Plan
+
+If issues arise:
+
+1. Keep original Anchor structs in separate file
+2. Comment out LUMOS imports
+3. Test with original code
+4. Debug LUMOS schema
+5. Re-enable when fixed
+
+## Example: Complete Migration
+
+See the [awesome-lumos](https://github.com/getlumos/awesome-lumos) repository for complete examples of migrated projects:
+
+- NFT Marketplace
+- DeFi Staking
+- DAO Governance
+
+## Need Help?
+
+- [Documentation](https://docs.lumos-lang.org)
+- [GitHub Issues](https://github.com/getlumos/lumos/issues)
+- [Community Discord](#)
+
+Start small, test often, and migrate incrementally. You'll have type-safe schemas in no time!

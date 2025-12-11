@@ -1,0 +1,131 @@
+---
+title: "Getting Started with LUMOS in 5 Minutes"
+date: "2025-01-20"
+author: "rector"
+excerpt: "Quick tutorial to get you building type-safe Solana programs with LUMOS in under 5 minutes."
+category: "tutorial"
+tags: ["tutorial", "getting-started", "cli"]
+image: "/placeholder.svg"
+---
+
+# Getting Started with LUMOS in 5 Minutes
+
+Let's build your first type-safe Solana program schema with LUMOS. This tutorial takes less than 5 minutes and shows you the complete workflow.
+
+## Prerequisites
+
+- Rust installed (for the CLI)
+- Basic understanding of Solana programs
+- Terminal access
+
+## Step 1: Install LUMOS CLI
+
+```bash
+cargo install lumos-cli
+```
+
+Verify installation:
+
+```bash
+lumos --version
+```
+
+## Step 2: Create a New Project
+
+```bash
+mkdir my-solana-project
+cd my-solana-project
+lumos init
+```
+
+This creates a `schema.lumos` file with example schemas.
+
+## Step 3: Define Your Schema
+
+Edit `schema.lumos`:
+
+```rust
+#[solana]
+#[account]
+struct UserAccount {
+    wallet: PublicKey,
+    username: String,
+    created_at: i64,
+    is_premium: bool,
+}
+
+#[solana]
+enum MembershipTier {
+    Free,
+    Premium,
+    Enterprise,
+}
+```
+
+## Step 4: Generate Code
+
+Generate Rust and TypeScript:
+
+```bash
+lumos generate schema.lumos
+```
+
+This creates:
+- `generated.rs` - Rust structs with Anchor support
+- `generated.ts` - TypeScript interfaces with Borsh schemas
+
+## Step 5: Use Generated Code
+
+### In Rust (Anchor program)
+
+```rust
+use anchor_lang::prelude::*;
+
+// Import generated structs
+mod generated;
+use generated::*;
+
+#[program]
+pub mod my_program {
+    use super::*;
+
+    pub fn create_user(ctx: Context<CreateUser>, username: String) -> Result<()> {
+        let user_account = &mut ctx.accounts.user_account;
+        user_account.wallet = ctx.accounts.signer.key();
+        user_account.username = username;
+        user_account.created_at = Clock::get()?.unix_timestamp;
+        user_account.is_premium = false;
+        Ok(())
+    }
+}
+```
+
+### In TypeScript (client)
+
+```typescript
+import { UserAccount, MembershipTier } from "./generated";
+
+// Type-safe deserialization
+const accountData = await connection.getAccountInfo(userAddress);
+const user = UserAccount.decode(accountData.data);
+
+console.log(`Username: ${user.username}`);
+console.log(`Premium: ${user.is_premium}`);
+```
+
+## What You Get
+
+✅ **Type safety** across Rust and TypeScript
+✅ **Guaranteed serialization compatibility**
+✅ **No manual Borsh implementation**
+✅ **Anchor framework ready**
+✅ **Editor support** with LSP
+
+## Next Steps
+
+- Add validation attributes with `#[deprecated]`
+- Explore complex types (Vec, Option, nested structs)
+- Check out [production examples](https://github.com/getlumos/awesome-lumos)
+- Read the [full documentation](https://docs.lumos-lang.org)
+
+That's it! You're now building type-safe Solana programs with LUMOS.
