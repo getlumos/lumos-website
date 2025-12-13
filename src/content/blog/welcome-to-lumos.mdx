@@ -1,0 +1,83 @@
+---
+title: "Welcome to LUMOS - Type-Safe Schemas for Solana"
+date: 2025-11-01
+author: "RECTOR"
+excerpt: "Introducing LUMOS, a type-safe schema language that bridges TypeScript and Rust for Solana development with guaranteed Borsh serialization compatibility."
+category: "announcement"
+tags: ["lumos", "solana", "rust", "typescript", "borsh"]
+---
+
+We're excited to announce the first stable release of **LUMOS** - a type-safe schema language designed specifically for Solana development.
+
+## The Problem
+
+Building on Solana means working with two very different ecosystems:
+
+- **Rust** for on-chain programs
+- **TypeScript** for client applications
+
+Keeping type definitions synchronized between these two worlds has always been a pain point. Manual updates lead to bugs, and serialization mismatches can cause transaction failures.
+
+## The Solution
+
+LUMOS lets you define your data structures once in `.lumos` syntax and automatically generates:
+
+- **Rust structs** with proper Borsh derives and Anchor integration
+- **TypeScript interfaces** with matching Borsh schemas
+
+```lumos
+#[solana]
+#[account]
+struct PlayerAccount {
+    wallet: PublicKey,
+    level: u16,
+    experience: u64,
+    equipped_items: [PublicKey],
+}
+```
+
+## Key Features
+
+### Single Source of Truth
+
+Define schemas once, generate everywhere. No more manual synchronization.
+
+### Type Safety
+
+Catch type mismatches at compile time, not runtime. The generated code is guaranteed to serialize and deserialize correctly.
+
+### Anchor Integration
+
+LUMOS understands Anchor. Use `#[account]` to generate Anchor-compatible structs with proper space calculations.
+
+### Multi-Language Support
+
+Beyond Rust and TypeScript, LUMOS now supports Python, Go, and Ruby code generation.
+
+## Getting Started
+
+Install the CLI:
+
+```bash
+cargo install lumos-cli
+```
+
+Create a schema file:
+
+```bash
+lumos init my-project
+```
+
+Generate code:
+
+```bash
+lumos generate schema.lumos
+```
+
+## What's Next
+
+We're just getting started. Check out our [roadmap](/roadmap) to see what's coming, and join the [community](/community) to help shape the future of LUMOS.
+
+---
+
+*This is the beginning of something great. Let's build together.*

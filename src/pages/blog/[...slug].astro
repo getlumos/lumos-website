@@ -1,0 +1,198 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavbarAstro from '../../components/NavbarAstro.astro';
+import FooterAstro from '../../components/FooterAstro.astro';
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formatDate = (date: Date): string => {
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
+const authors: Record<string, { name: string; bio?: string; github?: string; twitter?: string }> = {
+  RECTOR: {
+    name: "RECTOR",
+    bio: "Core maintainer of LUMOS",
+    github: "rz1989s",
+  },
+  team: {
+    name: "LUMOS Team",
+    bio: "The LUMOS development team",
+    github: "getlumos",
+  },
+};
+
+const author = authors[post.data.author];
+
+const categoryColors: Record<string, string> = {
+  announcement: "bg-primary text-primary-foreground",
+  tutorial: "bg-secondary text-secondary-foreground",
+  release: "bg-red-500/20 text-red-400 border border-red-500/30",
+  guide: "border border-input text-foreground",
+};
+---
+
+<Layout
+  title={`${post.data.title} - LUMOS Blog`}
+  description={post.data.excerpt}
+  type="article"
+  image={post.data.image}
+  author={author?.name || post.data.author}
+  publishedTime={post.data.date.toISOString()}
+>
+  <NavbarAstro slot="navbar" />
+
+  <div class="pt-16">
+    <article class="container mx-auto px-4 py-16">
+      <div class="max-w-4xl mx-auto">
+        <!-- Back Button -->
+        <a href="/blog" class="inline-block mb-8">
+          <span class="inline-flex items-center justify-center rounded-lg text-sm font-medium h-9 px-4 hover:bg-accent hover:text-accent-foreground transition-colors">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Blog
+          </span>
+        </a>
+
+        <!-- Header -->
+        <header class="mb-8">
+          <div class="flex items-center gap-2 mb-4">
+            <span class={`px-3 py-1 text-sm font-medium rounded-full ${categoryColors[post.data.category]}`}>
+              {post.data.category}
+            </span>
+          </div>
+
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">{post.data.title}</h1>
+
+          <div class="flex flex-wrap items-center gap-6 text-muted-foreground mb-6">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span>{formatDate(post.data.date)}</span>
+            </div>
+
+            {author && (
+              <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
+                  {author.name[0]}
+                </div>
+                <span>{author.name}</span>
+              </div>
+            )}
+          </div>
+
+          {post.data.tags.length > 0 && (
+            <div class="flex items-center gap-2 flex-wrap">
+              <svg class="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+              {post.data.tags.map((tag) => (
+                <span class="px-2 py-1 text-xs bg-secondary rounded-md">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </header>
+
+        <hr class="border-border mb-8" />
+
+        <!-- Content -->
+        <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-primary prose-code:bg-secondary prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-[#0d1117] prose-pre:border prose-pre:border-border">
+          <Content />
+        </div>
+
+        <hr class="border-border my-12" />
+
+        <!-- Author Bio -->
+        {author && (
+          <div class="flex items-start gap-4 p-6 bg-secondary/30 rounded-xl">
+            <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-2xl font-bold text-primary flex-shrink-0">
+              {author.name[0]}
+            </div>
+            <div>
+              <h3 class="font-semibold text-lg mb-2">About {author.name}</h3>
+              {author.bio && <p class="text-muted-foreground mb-2">{author.bio}</p>}
+              <div class="flex gap-4 text-sm">
+                {author.github && (
+                  <a
+                    href={`https://github.com/${author.github}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-primary hover:underline"
+                  >
+                    GitHub
+                  </a>
+                )}
+                {author.twitter && (
+                  <a
+                    href={`https://twitter.com/${author.twitter}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-primary hover:underline"
+                  >
+                    Twitter
+                  </a>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        <!-- Back Button (Bottom) -->
+        <div class="mt-12 text-center">
+          <a
+            href="/blog"
+            class="inline-flex items-center justify-center rounded-lg text-sm font-medium h-10 px-6 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Blog
+          </a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <FooterAstro slot="footer" />
+</Layout>
+
+<style>
+  /* Additional prose styling for code blocks */
+  .prose pre {
+    padding: 1.5rem;
+    overflow-x: auto;
+  }
+
+  .prose code::before,
+  .prose code::after {
+    content: none;
+  }
+
+  .prose blockquote {
+    border-left-color: hsl(var(--primary));
+    font-style: normal;
+  }
+</style>

@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavbarAstro from '../components/NavbarAstro.astro';
+import FooterAstro from '../components/FooterAstro.astro';
+import PlaygroundComponent from '../components/PlaygroundComponent';
+---
+
+<Layout
+  title="Playground - LUMOS"
+  description="Try LUMOS in your browser. Write .lumos schemas and instantly see generated Rust and TypeScript code with Borsh serialization."
+>
+  <NavbarAstro slot="navbar" />
+
+  <div class="pt-16">
+    <PlaygroundComponent client:only="react" />
+  </div>
+
+  <FooterAstro slot="footer" />
+</Layout>

@@ -1,0 +1,460 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavbarAstro from '../components/NavbarAstro.astro';
+import FooterAstro from '../components/FooterAstro.astro';
+
+const stackLayers = [
+  { level: 5, name: "Application Layer", desc: "Wallets, dApps, Dashboards", examples: "Phantom, Jupiter, Magic Eden", highlight: false },
+  { level: 4, name: "Workflow/Orchestration", desc: "Type-safe automation, deployment, testing", examples: "LUMOS (ENDGAME)", highlight: true },
+  { level: 3, name: "Client/SDK Layer", desc: "Libraries to interact with programs", examples: "@solana/web3.js, Anchor TS", highlight: false },
+  { level: 2, name: "Program/Contract Layer", desc: "Languages to write smart contracts", examples: "Rust + Anchor, Seahorse", highlight: false },
+  { level: 1, name: "Runtime/VM Layer", desc: "Blockchain runtime, virtual machine", examples: "Sealevel, BPF VM", highlight: false },
+];
+
+const evolutionStages = [
+  {
+    phase: "NOW",
+    version: "v0.3.0",
+    title: "Schema Generator",
+    desc: "Type definitions, code generation, Borsh serialization",
+    position: "Level 2-3 (Utility)",
+    active: true,
+  },
+  {
+    phase: "2026",
+    version: "Phase 5-6",
+    title: "Complete DSL",
+    desc: "Full schema language, advanced types, module system",
+    position: "Level 3 (Focused)",
+  },
+  {
+    phase: "2027",
+    version: "ENDGAME",
+    title: "Workflow Language",
+    desc: "Native execution, package ecosystem, multi-target compilation",
+    position: "Level 4 (DOMINANT)",
+    highlight: true,
+  },
+];
+
+const comparisonData = [
+  { aspect: "Purpose", anchor: "Write programs", hardhat: "ETH workflows", lumos: "Solana workflows" },
+  { aspect: "Layer", anchor: "Level 2", hardhat: "Level 4", lumos: "Level 4" },
+  { aspect: "Type Safety", anchor: "Rust only", hardhat: "Limited (TS)", lumos: "Full stack" },
+  { aspect: "Solana Native", anchor: true, hardhat: false, lumos: true },
+  { aspect: "Workflow Automation", anchor: false, hardhat: true, lumos: true },
+  { aspect: "Package Ecosystem", anchor: false, hardhat: true, lumos: "Coming" },
+];
+
+const whyWins = [
+  {
+    title: "Category Creator",
+    desc: "First to define 'type-safe workflow automation for Solana'. We own the vocabulary, we own the category.",
+  },
+  {
+    title: "Deep Technical Moat",
+    desc: "Type system, compiler, runtime, LSP, package ecosystem. Takes 2-3 years to replicate.",
+  },
+  {
+    title: "Solana-Native Design",
+    desc: "First-class Pubkey, Lamports, Signature types. Anchor IDL integration. Account model awareness.",
+  },
+  {
+    title: "Execution Speed",
+    desc: "3-5 commits/day pace. By the time competitors validate the idea, we're 12 months ahead.",
+  },
+];
+---
+
+<Layout
+  title="Vision"
+  description="The Workflow Language for Solana. From schema definitions today to full workflow automation tomorrow."
+>
+  <NavbarAstro slot="navbar" />
+
+  <div class="pt-16">
+    <!-- Hero Section -->
+    <section class="relative py-24 px-4 sm:px-6 lg:px-8 overflow-hidden" style="background: var(--gradient-hero);">
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="container mx-auto max-w-5xl relative z-10">
+        <div class="text-center space-y-6">
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
+            The <span class="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Workflow Language</span>
+            <br />for Solana
+          </h1>
+          <p class="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            From schema definitions today to full workflow automation tomorrow.
+            <br />
+            <strong class="text-foreground">Think: Hardhat for Ethereum, purpose-built for Solana.</strong>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stack Visualization -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/30">
+      <div class="container mx-auto max-w-4xl">
+        <div class="text-center space-y-4 mb-12">
+          <h2 class="text-3xl sm:text-4xl font-bold">
+            Where <span class="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">LUMOS</span> Sits
+          </h2>
+          <p class="text-muted-foreground">Understanding the Solana development stack</p>
+        </div>
+
+        <div class="space-y-3">
+          {stackLayers.map((layer) => (
+            <div
+              class:list={[
+                "p-4 sm:p-6 rounded-xl border transition-all duration-300",
+                layer.highlight
+                  ? "bg-gradient-to-r from-orange-500/20 to-amber-500/20 border-orange-500/50 shadow-lg"
+                  : "bg-card border-border hover:border-orange-500/30"
+              ]}
+            >
+              <div class="flex flex-col sm:flex-row sm:items-center gap-4">
+                <div class:list={[
+                  "w-12 h-12 rounded-lg flex items-center justify-center font-bold text-lg",
+                  layer.highlight ? "bg-background text-orange-500" : "bg-secondary text-muted-foreground"
+                ]}>
+                  L{layer.level}
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center gap-2">
+                    <h3 class:list={["font-semibold", layer.highlight ? "text-foreground" : "text-foreground"]}>
+                      {layer.name}
+                    </h3>
+                    {layer.highlight && (
+                      <span class="px-2 py-0.5 text-xs font-medium bg-orange-500 text-white rounded-full">
+                        LUMOS TARGET
+                      </span>
+                    )}
+                  </div>
+                  <p class:list={["text-sm", layer.highlight ? "text-muted-foreground" : "text-muted-foreground"]}>
+                    {layer.desc}
+                  </p>
+                </div>
+                <div class="text-sm text-muted-foreground">
+                  {layer.examples}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p class="text-center text-muted-foreground mt-8">
+          <strong class="text-foreground">Key Insight:</strong> LUMOS targets Level 4 (Workflow), NOT Level 2 (Smart Contracts).
+          <br />We're not replacing Anchor. We're building what doesn't exist yet.
+        </p>
+      </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+      <div class="container mx-auto max-w-5xl">
+        <div class="text-center space-y-4 mb-12">
+          <h2 class="text-3xl sm:text-4xl font-bold">
+            The <span class="text-red-400">Problem</span> We're Solving
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Before -->
+          <div class="p-6 rounded-xl border border-red-500/30 bg-red-500/5">
+            <h3 class="text-xl font-semibold text-red-400 mb-4 flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Today: Fragmented Chaos
+            </h3>
+            <div class="bg-background/50 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+              <pre class="text-muted-foreground">{`# Typical deployment (5+ tools, no types)
+anchor build          # Rust
+solana deploy         # Solana CLI
+ts-node init.ts       # TypeScript
+python airdrop.py     # Python
+solana logs           # Manual
+
+# Hope nothing breaks...`}</pre>
+            </div>
+            <ul class="mt-4 space-y-2 text-sm text-muted-foreground">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                No type safety across tools
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Error-prone (silent failures)
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                5 different syntaxes
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Not reusable
+              </li>
+            </ul>
+          </div>
+
+          <!-- After -->
+          <div class="p-6 rounded-xl border border-green-500/30 bg-green-500/5">
+            <h3 class="text-xl font-semibold text-green-400 mb-4 flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Tomorrow: LUMOS
+            </h3>
+            <div class="bg-background/50 rounded-lg p-4 font-mono text-sm overflow-x-auto">
+              <pre class="text-green-300/80">{`import { deploy, init, airdrop }
+  from "lumos-solana"
+
+fn main() {
+  let prog = deploy(".", "mainnet")
+  initialize(prog, config)
+  airdrop(users, lamports(1_000_000))
+}
+
+main() // Type-safe, one language`}</pre>
+            </div>
+            <ul class="mt-4 space-y-2 text-sm text-muted-foreground">
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Type-safe end-to-end
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Single language
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Reusable packages
+              </li>
+              <li class="flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                IDE autocomplete + LSP
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Evolution Timeline -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/30">
+      <div class="container mx-auto max-w-5xl">
+        <div class="text-center space-y-4 mb-12">
+          <h2 class="text-3xl sm:text-4xl font-bold">
+            The <span class="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Evolution</span>
+          </h2>
+          <p class="text-muted-foreground">From utility tool to dominant platform</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          {evolutionStages.map((stage) => (
+            <div
+              class:list={[
+                "p-6 text-center rounded-xl border transition-all duration-300",
+                stage.highlight
+                  ? "bg-gradient-to-r from-orange-500/20 to-amber-500/20 border-orange-500/50 shadow-lg"
+                  : stage.active
+                  ? "bg-primary/10 border-primary/50"
+                  : "bg-card border-border"
+              ]}
+            >
+              <div class:list={[
+                "w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center",
+                stage.highlight ? "bg-background" : "bg-secondary"
+              ]}>
+                <svg class:list={["w-8 h-8", stage.highlight ? "text-orange-500" : "text-muted-foreground"]} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {stage.highlight ? (
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  ) : stage.active ? (
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  ) : (
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  )}
+                </svg>
+              </div>
+              <div class="text-sm text-muted-foreground mb-1">{stage.phase}</div>
+              <div class:list={["text-lg font-bold mb-2", stage.highlight ? "text-foreground" : ""]}>
+                {stage.title}
+              </div>
+              <p class:list={["text-sm mb-3", stage.highlight ? "text-muted-foreground" : "text-muted-foreground"]}>
+                {stage.desc}
+              </p>
+              <div class:list={[
+                "text-xs px-3 py-1 rounded-full inline-block",
+                stage.highlight ? "bg-orange-500 text-white" : "bg-secondary text-muted-foreground"
+              ]}>
+                {stage.position}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8">
+      <div class="container mx-auto max-w-4xl">
+        <div class="text-center space-y-4 mb-12">
+          <h2 class="text-3xl sm:text-4xl font-bold">
+            LUMOS vs <span class="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">The Ecosystem</span>
+          </h2>
+        </div>
+
+        <div class="rounded-xl border border-border overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-secondary">
+                <tr>
+                  <th class="px-6 py-4 text-left font-semibold">Aspect</th>
+                  <th class="px-6 py-4 text-center font-semibold">Anchor</th>
+                  <th class="px-6 py-4 text-center font-semibold">Hardhat</th>
+                  <th class="px-6 py-4 text-center font-semibold bg-orange-500/20 text-orange-500">LUMOS</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-border">
+                {comparisonData.map((row) => (
+                  <tr class="hover:bg-secondary/50 transition-colors">
+                    <td class="px-6 py-4 font-medium">{row.aspect}</td>
+                    <td class="px-6 py-4 text-center text-muted-foreground">
+                      {typeof row.anchor === "boolean" ? (
+                        row.anchor ? (
+                          <svg class="w-5 h-5 text-green-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        ) : (
+                          <svg class="w-5 h-5 text-red-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        )
+                      ) : row.anchor}
+                    </td>
+                    <td class="px-6 py-4 text-center text-muted-foreground">
+                      {typeof row.hardhat === "boolean" ? (
+                        row.hardhat ? (
+                          <svg class="w-5 h-5 text-green-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        ) : (
+                          <svg class="w-5 h-5 text-red-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        )
+                      ) : row.hardhat}
+                    </td>
+                    <td class="px-6 py-4 text-center bg-orange-500/10 font-medium text-orange-500">
+                      {typeof row.lumos === "boolean" ? (
+                        row.lumos ? (
+                          <svg class="w-5 h-5 text-green-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        ) : (
+                          <svg class="w-5 h-5 text-red-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                        )
+                      ) : row.lumos}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <p class="text-center text-muted-foreground mt-6">
+          <strong class="text-foreground">Key:</strong> LUMOS complements Anchor (Level 2) by automating Level 4 workflows.
+        </p>
+      </div>
+    </section>
+
+    <!-- Why LUMOS Wins -->
+    <section class="py-20 px-4 sm:px-6 lg:px-8 bg-secondary/30">
+      <div class="container mx-auto max-w-5xl">
+        <div class="text-center space-y-4 mb-12">
+          <h2 class="text-3xl sm:text-4xl font-bold">
+            Why LUMOS <span class="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Wins</span>
+          </h2>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-6">
+          {whyWins.map((item) => (
+            <div class="p-6 rounded-xl bg-card border border-border hover:border-orange-500/50 transition-all duration-300">
+              <div class="flex gap-4">
+                <div class="w-12 h-12 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 flex items-center justify-center shrink-0">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-semibold text-lg mb-2">{item.title}</h3>
+                  <p class="text-muted-foreground text-sm">{item.desc}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 px-4 sm:px-6 lg:px-8">
+      <div class="container mx-auto max-w-3xl text-center space-y-8">
+        <h2 class="text-3xl sm:text-4xl font-bold">
+          Ready to Build the <span class="bg-gradient-to-r from-purple-500 to-purple-400 bg-clip-text text-transparent">Future</span>?
+        </h2>
+        <p class="text-xl text-muted-foreground">
+          Join us in creating the workflow automation standard for Solana.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="https://docs.lumos-lang.org/getting-started/quick-start"
+            class="inline-flex items-center justify-center rounded-lg text-lg font-semibold h-14 px-8 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+          >
+            Get Started
+            <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+          <a
+            href="https://docs.lumos-lang.org/guides/vision"
+            class="inline-flex items-center justify-center rounded-lg text-lg font-semibold h-14 px-8 border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors"
+          >
+            Read Full Vision
+          </a>
+          <a
+            href="https://github.com/getlumos/lumos"
+            class="inline-flex items-center justify-center rounded-lg text-lg font-semibold h-14 px-8 border border-input bg-background hover:bg-accent hover:text-accent-foreground transition-colors"
+          >
+            View on GitHub
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <FooterAstro slot="footer" />
+</Layout>

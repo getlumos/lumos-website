@@ -1,0 +1,73 @@
+---
+title: "LUMOS v0.2.0 - Multi-File Imports & Type Aliases"
+date: 2025-11-24
+author: "RECTOR"
+excerpt: "Major release introducing modular schema architecture with imports and type aliases for better code organization."
+category: "release"
+tags: ["lumos", "release", "imports", "type-aliases"]
+---
+
+We're happy to announce **LUMOS v0.2.0**, a major feature release that introduces modular schema architecture with imports and type aliases.
+
+## Type Aliases
+
+You can now create type aliases using Rust-style syntax:
+
+```lumos
+type UserId = PublicKey;
+type TokenAmount = u64;
+type Timestamp = i64;
+
+#[solana]
+#[account]
+struct UserAccount {
+    id: UserId,
+    balance: TokenAmount,
+    created_at: Timestamp,
+}
+```
+
+Type aliases are resolved recursively, with circular reference detection built-in.
+
+## Multi-File Imports
+
+Organize your schemas across multiple files using JavaScript-style imports:
+
+```lumos
+import { UserId, TokenAmount } from "./common.lumos";
+import { PlayerStats } from "./player.lumos";
+
+#[solana]
+#[account]
+struct GameAccount {
+    owner: UserId,
+    stats: PlayerStats,
+    rewards: TokenAmount,
+}
+```
+
+### Features
+
+- **Automatic resolution**: LUMOS automatically discovers and resolves imports
+- **Circular import detection**: Clear error messages when circular dependencies are found
+- **Import caching**: Efficient parsing with no duplicate work
+
+## New File Resolver
+
+Under the hood, we've added a new `FileResolver` module (340 lines) that handles all multi-file schema management with import caching.
+
+## Breaking Changes
+
+None! This release is fully backward compatible.
+
+## Upgrading
+
+```bash
+cargo install lumos-cli --force
+```
+
+Check out the [examples](https://github.com/getlumos/awesome-lumos) for multi-file import patterns.
+
+---
+
+*Happy coding!*
