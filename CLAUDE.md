@@ -17,7 +17,7 @@ Marketing and landing page website for LUMOS - the type-safe schema language for
 
 **Status**: v1.0.0 development
 **Tech Stack**: React 18, Vite, TypeScript, Tailwind CSS, shadcn/ui
-**Deployment**: Docker (Cloudflare Pages planned)
+**Deployment**: VPS (Docker)
 
 ---
 
@@ -67,11 +67,13 @@ docker-compose up -d --build
 docker-compose logs -f
 ```
 
-### Cloudflare Pages (Planned)
+### VPS Deployment
 
-**Domain**: lumos-lang.org (or subdomain)
-**Build command**: `npm run build`
-**Output directory**: `dist/`
+**SSH Host**: `lumos` (176.222.53.185)
+**User**: `lumos`
+**Port**: 4001
+**Domain**: lumos-lang.org
+**Auto-deploy**: GitHub Actions → Docker → VPS
 
 ---
 
