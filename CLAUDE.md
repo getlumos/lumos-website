@@ -1,13 +1,9 @@
 # CLAUDE.md - LUMOS Website
 
+> **Ecosystem Context:** See [getlumos/lumos/CLAUDE.md](https://github.com/getlumos/lumos/blob/main/CLAUDE.md) for LUMOS ecosystem overview, cross-repo standards, and shared guidelines.
+
 **Repository**: https://github.com/getlumos/lumos-website
 **Purpose**: Official marketing website for LUMOS
-
----
-
-## Quick Reference
-
-For complete ecosystem context, see: **[lumos/CLAUDE.md](https://github.com/getlumos/lumos/blob/main/CLAUDE.md)**
 
 ---
 
