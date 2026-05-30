@@ -17,7 +17,7 @@ Marketing and landing page website for LUMOS - the type-safe schema language for
 
 **Status**: v1.0.0 development
 **Tech Stack**: React 18, Vite, TypeScript, Tailwind CSS, shadcn/ui
-**Deployment**: VPS (Docker)
+**Deployment**: Vercel — `lumos-lang.org` (apex) + `www.lumos-lang.org` (308 → apex)
 
 ---
 
@@ -26,11 +26,10 @@ Marketing and landing page website for LUMOS - the type-safe schema language for
 | Path | Purpose |
 |------|---------|
 | `src/` | React components and pages |
-| `public/` | Static assets |
+| `public/` | Static assets (including `wasm/` for the Playground) |
 | `index.html` | Entry point |
 | `vite.config.ts` | Build configuration |
-| `docker-compose.yml` | Container deployment |
-| `Dockerfile` | Docker image build |
+| `vercel.json` | Vercel framework + SPA rewrite + www→apex redirect |
 
 ---
 
@@ -57,23 +56,17 @@ npm run lint
 
 ## Deployment
 
-### Docker
+**Platform**: Vercel
+**Project**: `rectors-projects/lumos-website`
+**Primary domain**: `lumos-lang.org` (apex, canonical)
+**Redirect**: `www.lumos-lang.org` → 308 → `lumos-lang.org` (handled by `vercel.json`)
+**SSL**: Let's Encrypt R13 for both apex and www, auto-renewed by Vercel
+**Auto-deploy**: push to `main` → Vercel builds and promotes to production
+**Config**: `vercel.json` (framework=vite, SPA fallback rewrite, host-matched www→apex redirect)
 
-```bash
-# Build and run
-docker-compose up -d --build
-
-# View logs
-docker-compose logs -f
-```
-
-### VPS Deployment
-
-**SSH Host**: `lumos` (176.222.53.185)
-**User**: `lumos`
-**Port**: 4001
-**Domain**: lumos-lang.org
-**Auto-deploy**: GitHub Actions → Docker → VPS
+DNS lives on Cloudflare (zone `lumos-lang.org`):
+- apex `A 76.76.21.21` (DNS-only, grey cloud)
+- www `CNAME cname.vercel-dns.com` (DNS-only, grey cloud)
 
 ---
 
@@ -109,13 +102,13 @@ docker-compose logs -f
 ## Related Pages
 
 The website should link to:
-- Documentation: https://lumos-lang.org
+- Documentation: https://docs.lumos-lang.org
 - GitHub: https://github.com/getlumos
 - CLI: `cargo install lumos-cli`
 - Examples: https://github.com/getlumos/awesome-lumos
 
 ---
 
-**Last Updated**: 2025-12-07
+**Last Updated**: 2026-05-26
 **Version**: 1.0.0
-**Status**: Development
+**Status**: Live at https://lumos-lang.org (Vercel)
